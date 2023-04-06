@@ -1,4 +1,5 @@
-﻿using ConsoleApp1.Input;
+﻿using ConsoleApp1.Display;
+using ConsoleApp1.Input;
 using System.Text;
 
 namespace ConsoleApp1.Gameplay

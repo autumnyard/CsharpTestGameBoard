@@ -2,7 +2,6 @@
 {
     internal interface IInputProvider
     {
-        eInputAction GetInput();
-        void Display();
+        void GetInput(out eInputAction newInput);
     }
 }

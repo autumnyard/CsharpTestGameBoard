@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using ConsoleApp1.Display;
 
 namespace ConsoleApp1.Input
 {
@@ -20,13 +21,13 @@ namespace ConsoleApp1.Input
             _inputMap.Add(ConsoleKey.D, eInputAction.MoveRight);
         }
 
-        public eInputAction GetInput()
+        public void GetInput(out eInputAction newInput)
         {
             var key = Console.ReadKey();
 
+            bool foundKeyInMap = _inputMap.TryGetValue(key.Key, out var input);
 
-            bool foundKey = _inputMap.TryGetValue(key.Key, out var input);
-            return foundKey ? input : eInputAction.None;
+            newInput = foundKeyInMap ? input : eInputAction.None;
         }
 
         public void Display()
