@@ -1,5 +1,4 @@
-﻿
-using ConsoleApp1.Core;
+﻿using ConsoleApp1.Core;
 
 namespace ConsoleApp1
 {
@@ -8,7 +7,9 @@ namespace ConsoleApp1
         static int Main(string[] args)
         {
             GameRunner game = new();
-            return game.RunGame();
+            int result = game.RunGame();
+
+            return result;
         }
     }
 }

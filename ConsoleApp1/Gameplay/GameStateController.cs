@@ -4,11 +4,6 @@ using System.Text;
 
 namespace ConsoleApp1.Gameplay
 {
-    internal interface IPersistable<T>
-    {
-        void Load(T persistence);
-        T Save();
-    }
     internal class GameStateController : IDisplayable, IPersistable<GameStatePersistence>
     {
         private MapController _map;
@@ -58,13 +53,8 @@ namespace ConsoleApp1.Gameplay
             switch (action)
             {
                 case eInputAction.MoveLeft:
-                    Console.WriteLine($"Move left {action}");
-                    Move(eMovement.Left);
-                    break;
-
                 case eInputAction.MoveRight:
-                    Console.WriteLine($"Move right {action}");
-                    Move(eMovement.Right);
+                    _player.ApplyInput(action, in _map);
                     break;
 
                 case eInputAction.Exit:
@@ -73,19 +63,6 @@ namespace ConsoleApp1.Gameplay
             }
         }
 
-        public void Move(eMovement movement)
-        {
-            switch (movement)
-            {
-                case eMovement.Left:
-                    _player.MoveLeft(in _map);
-                    return;
-
-                case eMovement.Right:
-                    _player.MoveRight(in _map);
-                    break;
-            }
-        }
 
         public void Display()
         {

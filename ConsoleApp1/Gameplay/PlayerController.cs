@@ -1,5 +1,5 @@
-﻿
-using ConsoleApp1.Display;
+﻿using ConsoleApp1.Display;
+using ConsoleApp1.Input;
 
 namespace ConsoleApp1.Gameplay
 {
@@ -28,17 +28,32 @@ namespace ConsoleApp1.Gameplay
             };
         }
 
-        public void MoveLeft(in MapController map)
+        internal void ApplyInput(eInputAction inputAction, in MapController map)
         {
-            if (_currentPosition == 0) return;
+            switch (inputAction)
+            {
+                case eInputAction.MoveLeft: MoveLeft(in map); return;
+                case eInputAction.MoveRight: MoveRight(in map); break;
+            }
+        }
+
+        
+        private void MoveLeft(in MapController map)
+        {
+            bool isValid = map.IsValidMovement(_currentPosition, _currentPosition - 1);
+            if (!isValid) return;
+
             _currentPosition--;
         }
 
-        public void MoveRight(in MapController map)
+        private void MoveRight(in MapController map)
         {
-            if (_currentPosition == map.Size - 1) return;
+            bool isValid = map.IsValidMovement(_currentPosition, _currentPosition + 1);
+            if (!isValid) return;
+
             _currentPosition++;
         }
+
 
         public void Display()
         {
@@ -47,9 +62,7 @@ namespace ConsoleApp1.Gameplay
 
 
         public override string ToString() => _currentPosition.ToString();
-
         public bool Equals(int other) => _currentPosition.Equals(other);
-
         public static bool operator ==(PlayerController player, int other) => player.Equals(other);
         public static bool operator !=(PlayerController player, int other) => !player.Equals(other);
     }
