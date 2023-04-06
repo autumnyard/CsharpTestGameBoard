@@ -8,7 +8,13 @@ namespace ConsoleApp1.Gameplay
         IPersistable<PlayerPersistence>,
         IDisplayable
     {
+        private readonly MovementValidator _movementValidator;
         private int _currentPosition;
+
+        public PlayerController(MovementValidator movementValidator)
+        {
+            _movementValidator = movementValidator;
+        }
 
         public void NewGame(int spawnPosition)
         {
@@ -28,27 +34,27 @@ namespace ConsoleApp1.Gameplay
             };
         }
 
-        internal void ApplyInput(eInputAction inputAction, in MapController map)
+        internal void ApplyInput(eInputAction inputAction)
         {
             switch (inputAction)
             {
-                case eInputAction.MoveLeft: MoveLeft(in map); return;
-                case eInputAction.MoveRight: MoveRight(in map); break;
+                case eInputAction.MoveLeft: MoveLeft(); return;
+                case eInputAction.MoveRight: MoveRight(); break;
             }
         }
 
         
-        private void MoveLeft(in MapController map)
+        private void MoveLeft()
         {
-            bool isValid = map.IsValidMovement(_currentPosition, _currentPosition - 1);
+            bool isValid = _movementValidator.IsValidMovement(_currentPosition, _currentPosition - 1);
             if (!isValid) return;
 
             _currentPosition--;
         }
 
-        private void MoveRight(in MapController map)
+        private void MoveRight()
         {
-            bool isValid = map.IsValidMovement(_currentPosition, _currentPosition + 1);
+            bool isValid = _movementValidator.IsValidMovement(_currentPosition, _currentPosition + 1);
             if (!isValid) return;
 
             _currentPosition++;

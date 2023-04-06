@@ -30,13 +30,6 @@ namespace ConsoleApp1.Gameplay
         }
 
 
-        public bool IsValidMovement(int currentPosition, int nextPosition)
-        {
-            if (nextPosition < 0) return false;
-            if (nextPosition >= _board.Length - 1) return false;
-
-            return true;
-        }
 
 
         public void Display()

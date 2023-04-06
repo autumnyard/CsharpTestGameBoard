@@ -1,6 +1,5 @@
 ﻿using ConsoleApp1.Display;
 using ConsoleApp1.Input;
-using System.Text;
 
 namespace ConsoleApp1.Gameplay
 {
@@ -8,6 +7,7 @@ namespace ConsoleApp1.Gameplay
     {
         private MapController _map;
         private PlayerController _player;
+        private MovementValidator _movementValidator;
         private bool _isRunning;
 
         public bool IsRunning => _isRunning;
@@ -18,10 +18,10 @@ namespace ConsoleApp1.Gameplay
                 playerSpawnPosition = mapSize;
 
             _map = new MapController();
+            _movementValidator = new MovementValidator(_map);
+            _player = new PlayerController(_movementValidator);
+
             _map.NewGame(mapSize);
-
-
-            _player = new PlayerController();
             _player.NewGame(playerSpawnPosition);
 
             _isRunning = true;
@@ -30,9 +30,11 @@ namespace ConsoleApp1.Gameplay
         public void Load(GameStatePersistence save)
         {
             _map = new MapController();
-            _map.Load(save.map);
 
-            _player = new PlayerController();
+            _movementValidator = new MovementValidator(_map);
+            _player = new PlayerController(_movementValidator);
+
+            _map.Load(save.map);
             _player.Load(save.player);
 
             _isRunning = true;
@@ -47,6 +49,11 @@ namespace ConsoleApp1.Gameplay
             };
         }
 
+        private void Finish()
+        {
+            _isRunning = false;
+        }
+
 
         public void ApplyInput(eInputAction action)
         {
@@ -54,11 +61,11 @@ namespace ConsoleApp1.Gameplay
             {
                 case eInputAction.MoveLeft:
                 case eInputAction.MoveRight:
-                    _player.ApplyInput(action, in _map);
+                    _player.ApplyInput(action);
                     break;
 
                 case eInputAction.Exit:
-                    _isRunning = false;
+                    Finish();
                     break;
             }
         }
