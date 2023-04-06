@@ -1,6 +1,4 @@
-﻿using ConsoleApp1.Core;
-
-namespace ConsoleApp1
+﻿namespace ConsoleApp1
 {
     internal class Program
     {

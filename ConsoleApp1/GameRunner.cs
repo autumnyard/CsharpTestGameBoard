@@ -1,6 +1,7 @@
-﻿using ConsoleApp1.Gameplay;
+﻿using ConsoleApp1.Core;
+using ConsoleApp1.Gameplay;
 
-namespace ConsoleApp1.Core
+namespace ConsoleApp1
 {
     internal class GameRunner
     {
@@ -16,6 +17,7 @@ namespace ConsoleApp1.Core
                     startGameMode = eStartGameMode.NewGame;
                     break;
 
+
                 case ConsoleKey.L:
                     startGameMode = eStartGameMode.Load;
                     break;
@@ -24,7 +26,7 @@ namespace ConsoleApp1.Core
                     return 1;
             }
 
-            Game game = new Game();
+            GameController game = new GameController();
             game.Initialize();
 
             switch (startGameMode)
@@ -58,19 +60,25 @@ namespace ConsoleApp1.Core
             Console.WriteLine(" Do you want to start a (N)ew game, or (L)oad a previous one?");
         }
 
-        public void StartNewGame(Game game)
+        public void StartNewGame(GameController game)
         {
-            game.NewGame(4, 2);
+            Console.WriteLine("\n");
+            Console.WriteLine(" Now press the number of the level you want to play: ");
+
+            var key = Console.ReadKey();
+
+            bool valid = int.TryParse(key.KeyChar.ToString(), out int level);
+            if (!valid) level = 0;
+            else level--;
+
+            game.NewGame(level);
         }
 
-        public void LoadGame(Game game)
+        public void LoadGame(GameController game)
         {
             GameStatePersistence gameStatePersistence = new()
             {
-                map = new()
-                {
-                    size = 5
-                },
+                level = 0,
                 player = new()
                 {
                     currentPosition = 1

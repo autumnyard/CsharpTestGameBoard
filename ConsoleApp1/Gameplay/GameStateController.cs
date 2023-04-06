@@ -8,33 +8,41 @@ namespace ConsoleApp1.Gameplay
         private MapController _map;
         private PlayerController _player;
         private MovementValidator _movementValidator;
+        private LevelDataProvider _levelDataProvider;
         private bool _isRunning;
+        private int _currentLevel;
 
         public bool IsRunning => _isRunning;
 
-        public void NewGame(int mapSize, int playerSpawnPosition)
+        public void NewGame(int level)
         {
-            if (mapSize < playerSpawnPosition)
-                playerSpawnPosition = mapSize;
-
+            _levelDataProvider = new LevelDataProvider();
             _map = new MapController();
             _movementValidator = new MovementValidator(_map);
             _player = new PlayerController(_movementValidator);
 
-            _map.NewGame(mapSize);
-            _player.NewGame(playerSpawnPosition);
+            // Load from level data
+            _currentLevel = level;
+            _levelDataProvider.TryGet(level, out var data);
+            _map.SetMap(data.MapSize);
+            _player.NewGame(data.PlayerSpawnPosition);
 
             _isRunning = true;
         }
 
         public void Load(GameStatePersistence save)
         {
+            _levelDataProvider = new LevelDataProvider();
             _map = new MapController();
-
             _movementValidator = new MovementValidator(_map);
             _player = new PlayerController(_movementValidator);
 
-            _map.Load(save.map);
+            // Load data from level data
+            _currentLevel = save.level;
+            _levelDataProvider.TryGet(_currentLevel, out var data);
+            _map.SetMap(data.MapSize);
+
+            // Load state from persistence
             _player.Load(save.player);
 
             _isRunning = true;
@@ -44,7 +52,7 @@ namespace ConsoleApp1.Gameplay
         {
             return new GameStatePersistence()
             {
-                map = _map.Save(),
+                level = _currentLevel,
                 player = _player.Save()
             };
         }

@@ -4,7 +4,7 @@ using ConsoleApp1.Input;
 
 namespace ConsoleApp1.Core
 {
-    internal class Game : IPersistable<GameStatePersistence>
+    internal class GameController : IPersistable<GameStatePersistence>
     {
         private Displayer _displayer;
         private InputProvider _inputProvider;
@@ -23,9 +23,9 @@ namespace ConsoleApp1.Core
             _displayer.AddDisplayable(_gameState);
         }
 
-        public void NewGame(int mapSize, int playerSpawnPosition)
+        public void NewGame(int level)
         {
-            _gameState.NewGame(mapSize, playerSpawnPosition);
+            _gameState.NewGame(level);
         }
 
         public void Load(GameStatePersistence persistence)

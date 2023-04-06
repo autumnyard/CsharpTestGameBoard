@@ -4,33 +4,16 @@ using System.Text;
 
 namespace ConsoleApp1.Gameplay
 {
-    internal class MapController : IPersistable<MapPersistence>, IDisplayable
+    internal class MapController : IDisplayable
     {
         private int[] _board;
 
         public int Size => _board.Length;
 
-        public void NewGame(int size)
+        public void SetMap(int size)
         {
             _board = new int[size];
         }
-
-        public void Load(MapPersistence persistence)
-        {
-            _board = new int[persistence.size];
-        }
-
-
-        public MapPersistence Save()
-        {
-            return new()
-            {
-                size = _board.Length,
-            };
-        }
-
-
-
 
         public void Display()
         {
