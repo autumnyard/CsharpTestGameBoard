@@ -1,7 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using System;
-
+﻿
 namespace ConsoleApp1
 {
     internal class Program
@@ -10,23 +7,41 @@ namespace ConsoleApp1
         {
             Console.WriteLine("Hello World!");
 
+            IInputProvider inputProvider = new InputProvider();
+
             BoardController board = new BoardController(3, 2);
-            board.Print();
 
             bool isPlaying = true;
 
             while (isPlaying)
             {
-                var key = Console.ReadKey();
-                switch (key.Key)
+
+                board.Print();
+
+                var newInput = inputProvider.GetInput();
+
+                switch (newInput)
                 {
-                    case ConsoleKey.Escape:
+                    case eInputAction.MoveLeft:
+                        Console.WriteLine($"Move left {newInput}");
+                        board.Move(eMovement.Left);
+                        break;
+
+                    case eInputAction.MoveRight:
+                        Console.WriteLine($"Move right {newInput}");
+                        board.Move(eMovement.Right);
+                        break;
+
+                    case eInputAction.Exit:
                         isPlaying = false;
                         break;
 
+                    case eInputAction.None:
                     default:
                         break;
                 }
+
+
             }
 
 

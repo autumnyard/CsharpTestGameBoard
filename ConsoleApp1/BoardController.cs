@@ -30,10 +30,12 @@ namespace ConsoleApp1
             {
                 case eMovement.Left:
                     if (_playerPosition == 0) return;
+                    _playerPosition--;
                     return;
 
                 case eMovement.Right:
                     if (_playerPosition == _board.Length - 1) return;
+                    _playerPosition++;
                     break;
             }
 
@@ -46,6 +48,8 @@ namespace ConsoleApp1
             {
                 sb.Append($" [{_board[i]}]");
             }
+            sb.Append('\n');
+            sb.Append($" Player position: {_playerPosition}");
             Console.WriteLine(sb.ToString());
         }
     }
