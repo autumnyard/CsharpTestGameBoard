@@ -4,7 +4,12 @@ using System.Text;
 
 namespace ConsoleApp1.Gameplay
 {
-    internal class GameStateController : IDisplayable
+    internal interface IPersistable<T>
+    {
+        void Load(T save);
+        T Save();
+    }
+    internal class GameStateController : IDisplayable, IPersistable<GameStatePersistence>
     {
         private int[] _board;
         private PlayerController _player;
@@ -12,18 +17,38 @@ namespace ConsoleApp1.Gameplay
 
         public bool IsRunning => _isRunning;
 
-        public GameStateController(int size, int spawnPosition)
+        public void NewGame(int mapSize, int playerSpawnPosition)
         {
-            if (size < spawnPosition)
-                spawnPosition = size;
+            if (mapSize < playerSpawnPosition)
+                playerSpawnPosition = mapSize;
 
-            _board = new int[size];
-            _board[0] = 0;
+            _board = new int[mapSize];
 
-            _player = new PlayerController(spawnPosition);
+            _player = new PlayerController();
+            _player.NewGame(playerSpawnPosition);
 
             _isRunning = true;
         }
+
+        public void Load(GameStatePersistence save)
+        {
+            _board = new int[save.mapSize];
+
+            _player = new PlayerController();
+            _player.Load(save.currentPlayerPosition);
+
+            _isRunning = true;
+        }
+
+        public GameStatePersistence Save()
+        {
+            return new GameStatePersistence()
+            {
+                mapSize = _board.Length,
+                currentPlayerPosition = _player.Save()
+            };
+        }
+
 
         public void ApplyInput(eInputAction action)
         {

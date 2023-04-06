@@ -1,28 +1,40 @@
 ﻿
 namespace ConsoleApp1.Gameplay
 {
-    internal class PlayerController : IEquatable<int>
+    internal class PlayerController : IEquatable<int>, IPersistable<int>
     {
-        private int _playerPosition;
+        private int _currentPosition;
 
-        public PlayerController(int spawnPosition)
+        public void NewGame(int spawnPosition)
         {
-            _playerPosition = spawnPosition;
+            _currentPosition = spawnPosition;
+        }
+
+        public void Load(int persistence)
+        {
+            _currentPosition = persistence;
+        }
+
+        public int Save()
+        {
+            return _currentPosition;
         }
 
         public void MoveLeft()
         {
-            _playerPosition--;
+            _currentPosition--;
         }
 
         public void MoveRight()
         {
-            _playerPosition++;
+            _currentPosition++;
         }
 
-        public override string ToString() => _playerPosition.ToString();
+        public override string ToString() => _currentPosition.ToString();
 
-        public bool Equals(int other) => _playerPosition.Equals(other);
+        public bool Equals(int other) => _currentPosition.Equals(other);
+
+
         public static bool operator ==(PlayerController player, int other) => player.Equals(other);
         public static bool operator !=(PlayerController player, int other) => !player.Equals(other);
     }
