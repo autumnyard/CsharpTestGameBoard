@@ -1,7 +1,12 @@
 ﻿
+using ConsoleApp1.Display;
+
 namespace ConsoleApp1.Gameplay
 {
-    internal class PlayerController : IEquatable<int>, IPersistable<int>
+    internal sealed class PlayerController :
+        IEquatable<int>,
+        IPersistable<PlayerPersistence>,
+        IDisplayable
     {
         private int _currentPosition;
 
@@ -10,30 +15,40 @@ namespace ConsoleApp1.Gameplay
             _currentPosition = spawnPosition;
         }
 
-        public void Load(int persistence)
+        public void Load(PlayerPersistence persistence)
         {
-            _currentPosition = persistence;
+            _currentPosition = persistence.currentPosition;
         }
 
-        public int Save()
+        public PlayerPersistence Save()
         {
-            return _currentPosition;
+            return new PlayerPersistence()
+            {
+                currentPosition = _currentPosition
+            };
         }
 
-        public void MoveLeft()
+        public void MoveLeft(in MapController map)
         {
+            if (_currentPosition == 0) return;
             _currentPosition--;
         }
 
-        public void MoveRight()
+        public void MoveRight(in MapController map)
         {
+            if (_currentPosition == map.Size - 1) return;
             _currentPosition++;
         }
+
+        public void Display()
+        {
+            Console.WriteLine($" Player position: {_currentPosition}\n\n");
+        }
+
 
         public override string ToString() => _currentPosition.ToString();
 
         public bool Equals(int other) => _currentPosition.Equals(other);
-
 
         public static bool operator ==(PlayerController player, int other) => player.Equals(other);
         public static bool operator !=(PlayerController player, int other) => !player.Equals(other);

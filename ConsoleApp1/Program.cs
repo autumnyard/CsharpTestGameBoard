@@ -16,8 +16,8 @@ namespace ConsoleApp1
             Game game = new Game();
             game.Initialize();
 
-            StartNewGame(game);
-            //LoadGame(game);
+            //StartNewGame(game);
+            LoadGame(game);
 
             while (game.IsRunning)
             {
@@ -37,8 +37,14 @@ namespace ConsoleApp1
         {
             GameStatePersistence gameStatePersistence = new()
             {
-                mapSize = 5,
-                currentPlayerPosition = 1,
+                map = new()
+                {
+                    size = 5
+                },
+                player = new()
+                {
+                    currentPosition = 1
+                }
             };
             game.Load(gameStatePersistence);
         }

@@ -6,12 +6,12 @@ namespace ConsoleApp1.Gameplay
 {
     internal interface IPersistable<T>
     {
-        void Load(T save);
+        void Load(T persistence);
         T Save();
     }
     internal class GameStateController : IDisplayable, IPersistable<GameStatePersistence>
     {
-        private int[] _board;
+        private MapController _map;
         private PlayerController _player;
         private bool _isRunning;
 
@@ -22,7 +22,9 @@ namespace ConsoleApp1.Gameplay
             if (mapSize < playerSpawnPosition)
                 playerSpawnPosition = mapSize;
 
-            _board = new int[mapSize];
+            _map = new MapController();
+            _map.NewGame(mapSize);
+
 
             _player = new PlayerController();
             _player.NewGame(playerSpawnPosition);
@@ -32,10 +34,11 @@ namespace ConsoleApp1.Gameplay
 
         public void Load(GameStatePersistence save)
         {
-            _board = new int[save.mapSize];
+            _map = new MapController();
+            _map.Load(save.map);
 
             _player = new PlayerController();
-            _player.Load(save.currentPlayerPosition);
+            _player.Load(save.player);
 
             _isRunning = true;
         }
@@ -44,8 +47,8 @@ namespace ConsoleApp1.Gameplay
         {
             return new GameStatePersistence()
             {
-                mapSize = _board.Length,
-                currentPlayerPosition = _player.Save()
+                map = _map.Save(),
+                player = _player.Save()
             };
         }
 
@@ -75,29 +78,19 @@ namespace ConsoleApp1.Gameplay
             switch (movement)
             {
                 case eMovement.Left:
-                    if (_player == 0) return;
-                    _player.MoveLeft();
+                    _player.MoveLeft(in _map);
                     return;
 
                 case eMovement.Right:
-                    if (_player == _board.Length - 1) return;
-                    _player.MoveRight();
+                    _player.MoveRight(in _map);
                     break;
             }
         }
 
         public void Display()
         {
-            StringBuilder sb = new StringBuilder("Board: ");
-            for (int i = 0; i < _board.Length; i++)
-            {
-                sb.Append($" [{_board[i]}]");
-            }
-            sb.Append('\n');
-            sb.Append($" Player position: {_player}");
-            sb.Append('\n');
-            sb.Append('\n');
-            Console.WriteLine(sb.ToString());
+            _map.Display();
+            _player.Display();
         }
     }
 }
