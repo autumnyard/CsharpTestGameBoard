@@ -2,7 +2,7 @@
 using ConsoleApp1.Gameplay;
 using ConsoleApp1.Input;
 
-namespace ConsoleApp1
+namespace ConsoleApp1.Core
 {
     internal class Game : IPersistable<GameStatePersistence>
     {
