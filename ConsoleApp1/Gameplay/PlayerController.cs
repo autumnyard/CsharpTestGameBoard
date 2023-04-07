@@ -66,7 +66,7 @@ namespace ConsoleApp1.Gameplay
             bool isValid = _movementValidator.IsValidMovement(_state.currentPosition, requestedNewPosition);
             if (!isValid) return;
 
-            _state.Set(requestedNewPosition);
+            _state.SetPosition(requestedNewPosition);
         }
 
 

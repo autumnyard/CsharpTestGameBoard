@@ -6,19 +6,19 @@ namespace ConsoleApp1.Gameplay
     {
         public Vector2Int currentPosition;
 
-        public void Set(Vector2Int position)
+        public void SetPosition(Vector2Int position)
         {
             currentPosition = position;
         }
 
         public void StartClean(LevelData data)
         {
-            this.Set(data.PlayerSpawnPosition);
+            this.SetPosition(data.Player.playerSpawnPosition);
         }
 
         public void Load(PlayerState persistence)
         {
-            this.Set(persistence.currentPosition);
+            this.SetPosition(persistence.currentPosition);
         }
 
         public PlayerState Save()
