@@ -10,10 +10,10 @@ namespace ConsoleApp1.Gameplay
             _map = map;
         }
 
-        public bool IsValidMovement(int currentPosition, int nextPosition)
+        public bool IsValidMovement(Vector2Int currentPosition, Vector2Int nextPosition)
         {
-            if (nextPosition < 0) return false;
-            if (nextPosition >= _map.Size ) return false;
+            if (nextPosition.X < 0 || nextPosition.Y < 0) return false;
+            if (!_map.Size.Contains(nextPosition)) return false;
 
             return true;
         }

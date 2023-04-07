@@ -67,6 +67,8 @@ namespace ConsoleApp1.Gameplay
         {
             switch (action)
             {
+                case eInputAction.MoveUp:
+                case eInputAction.MoveDown:
                 case eInputAction.MoveLeft:
                 case eInputAction.MoveRight:
                     _player.ApplyInput(action);

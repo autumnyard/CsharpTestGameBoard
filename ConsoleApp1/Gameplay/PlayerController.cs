@@ -4,21 +4,22 @@ using ConsoleApp1.Input;
 namespace ConsoleApp1.Gameplay
 {
     internal sealed class PlayerController :
-        IEquatable<int>,
+        IEquatable<Vector2Int>,
         IPersistable<PlayerPersistence>,
         IDisplayable
     {
         private readonly MovementValidator _movementValidator;
-        private int _currentPosition;
+        private Vector2Int _currentPosition;
 
         public PlayerController(MovementValidator movementValidator)
         {
             _movementValidator = movementValidator;
+            _currentPosition = default;
         }
 
-        public void NewGame(int spawnPosition)
+        public void NewGame(Vector2Int spawnPosition)
         {
-            _currentPosition = spawnPosition;
+            _currentPosition = new Vector2Int( spawnPosition);
         }
 
         public void Load(PlayerPersistence persistence)
@@ -38,38 +39,58 @@ namespace ConsoleApp1.Gameplay
         {
             switch (inputAction)
             {
+                case eInputAction.MoveUp: MoveUp(); return;
+                case eInputAction.MoveDown: MoveDown(); return;
                 case eInputAction.MoveLeft: MoveLeft(); return;
                 case eInputAction.MoveRight: MoveRight(); break;
             }
         }
 
         
+        private void MoveUp()
+        {
+            var requestedPosition = new Vector2Int(_currentPosition.X, _currentPosition.Y - 1);
+            TryToMove(requestedPosition);
+        }
+        
+        private void MoveDown()
+        {
+            var requestedPosition = new Vector2Int(_currentPosition.X, _currentPosition.Y + 1);
+            TryToMove(requestedPosition);
+        }
+        
         private void MoveLeft()
         {
-            bool isValid = _movementValidator.IsValidMovement(_currentPosition, _currentPosition - 1);
-            if (!isValid) return;
-
-            _currentPosition--;
+            var requestedPosition = new Vector2Int(_currentPosition.X - 1, _currentPosition.Y);
+            TryToMove(requestedPosition);
         }
 
         private void MoveRight()
         {
-            bool isValid = _movementValidator.IsValidMovement(_currentPosition, _currentPosition + 1);
+            var requestPosition = new Vector2Int(_currentPosition.X + 1, _currentPosition.Y);
+            TryToMove(requestPosition);
+        }
+
+        private void TryToMove(Vector2Int requestedNewPosition)
+        {
+            bool isValid = _movementValidator.IsValidMovement(_currentPosition, requestedNewPosition);
             if (!isValid) return;
 
-            _currentPosition++;
+            _currentPosition = requestedNewPosition;
         }
 
 
-        public void Display()
+        public void Display() => PlayerController.Display(_currentPosition);
+
+        private static void Display(Vector2Int position)
         {
-            Console.WriteLine($" Player position: {_currentPosition}\n\n");
+            Console.WriteLine($" Player position: {position}\n\n");
         }
 
 
         public override string ToString() => _currentPosition.ToString();
-        public bool Equals(int other) => _currentPosition.Equals(other);
-        public static bool operator ==(PlayerController player, int other) => player.Equals(other);
-        public static bool operator !=(PlayerController player, int other) => !player.Equals(other);
+        public bool Equals(Vector2Int other) => _currentPosition.Equals(other);
+        public static bool operator ==(PlayerController player, Vector2Int other) => player.Equals(other);
+        public static bool operator !=(PlayerController player, Vector2Int other) => !player.Equals(other);
     }
 }

@@ -81,7 +81,7 @@ namespace ConsoleApp1
                 level = 0,
                 player = new()
                 {
-                    currentPosition = 1
+                    currentPosition = new Vector2Int(1, 2),
                 }
             };
             game.Load(gameStatePersistence);

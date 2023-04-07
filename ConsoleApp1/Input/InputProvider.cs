@@ -14,6 +14,12 @@ namespace ConsoleApp1.Input
                  { ConsoleKey.Escape, eInputAction.Exit}
             };
 
+            _inputMap.Add(ConsoleKey.UpArrow, eInputAction.MoveUp);
+            _inputMap.Add(ConsoleKey.W, eInputAction.MoveUp);
+
+            _inputMap.Add(ConsoleKey.DownArrow, eInputAction.MoveDown);
+            _inputMap.Add(ConsoleKey.S, eInputAction.MoveDown);
+
             _inputMap.Add(ConsoleKey.LeftArrow, eInputAction.MoveLeft);
             _inputMap.Add(ConsoleKey.A, eInputAction.MoveLeft);
 

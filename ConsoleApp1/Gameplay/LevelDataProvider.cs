@@ -9,8 +9,8 @@ namespace ConsoleApp1.Gameplay
         {
             _levels = new LevelData[]
             {
-                new LevelData(4,2),
-                new LevelData(6,2),
+                new LevelData(new Vector2Int(4,4), new Vector2Int(1,2)),
+                new LevelData(new Vector2Int(7,5), new Vector2Int(3,2)),
             };
         }
 
