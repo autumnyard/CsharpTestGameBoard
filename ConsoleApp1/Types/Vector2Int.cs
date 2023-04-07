@@ -3,8 +3,8 @@ namespace ConsoleApp1
 {
     internal class Vector2Int
     {
-        private int _x;
-        private int _y;
+        public int _x;
+        public int _y;
 
         public int X => _x;
         public int Y => _y;

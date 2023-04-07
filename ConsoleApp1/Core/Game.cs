@@ -2,6 +2,7 @@
 using ConsoleApp1.Gameplay;
 using ConsoleApp1.Gameplay.Game;
 using ConsoleApp1.Input;
+using Serialization;
 
 namespace ConsoleApp1.Core
 {
@@ -15,7 +16,6 @@ namespace ConsoleApp1.Core
 
         public void Initialize()
         {
-
             _displayer = new Displayer();
 
             _inputProvider = new InputProvider();
@@ -45,7 +45,19 @@ namespace ConsoleApp1.Core
             Console.Clear();
             _displayer.Display();
             _inputProvider.GetInput(out var newInput);
+
+            if (newInput == eInputAction.Save) SaveGame(this);
+
             _mainGame.ApplyInput(newInput);
+        }
+
+        public void SaveGame(Game game)
+        {
+            Console.WriteLine($"Save game");
+
+            ISerializer serializer = new NewtonsoftJSONSerializer();
+            var save = game.Save();
+            serializer.Serialize(Common.SAVE_PATH, save);
         }
 
         public void Finish()
@@ -53,6 +65,5 @@ namespace ConsoleApp1.Core
             _displayer.RemoveDisplayable((IDisplayable)_mainGame);
             _displayer.RemoveDisplayable((IDisplayable)_inputProvider);
         }
-
     }
 }

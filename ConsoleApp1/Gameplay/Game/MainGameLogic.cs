@@ -38,12 +38,11 @@ namespace ConsoleApp1.Gameplay.Game
 
         public GamePersistence Save()
         {
-            return new GamePersistence()
-            {
-                level = _currentLevel,
-                map = _map.State.Save(),
-                player = _player.State.Save(),
-            };
+            return new GamePersistence(
+                _currentLevel, 
+                _map.State.Save(), 
+                _player.State.Save());
+
         }
 
         private void Initialize(int level)

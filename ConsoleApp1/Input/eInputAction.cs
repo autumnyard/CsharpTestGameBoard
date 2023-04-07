@@ -6,6 +6,7 @@ namespace ConsoleApp1.Input
         None = 0,
         MoveUp, MoveDown,
         MoveLeft, MoveRight,
+        Save,
         Exit
     }
 }

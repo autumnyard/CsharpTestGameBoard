@@ -5,7 +5,6 @@
     {
         public int[,] map;
 
-
         private void CreateNewMap(Vector2Int size)
         {
             map = new int[size.X, size.Y];

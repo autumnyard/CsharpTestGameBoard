@@ -1,5 +1,6 @@
 ﻿using ConsoleApp1.Core;
 using ConsoleApp1.Gameplay.Game;
+using Serialization;
 
 namespace ConsoleApp1
 {
@@ -65,7 +66,7 @@ namespace ConsoleApp1
             Console.WriteLine("\n");
             Console.WriteLine(" Now press the number of the level you want to play: ");
 
-            var key = Console.ReadKey();
+            var key = Console.ReadKey(true);
 
             bool valid = int.TryParse(key.KeyChar.ToString(), out int level);
             if (!valid) level = 0;
@@ -76,14 +77,9 @@ namespace ConsoleApp1
 
         public void LoadGame(Game game)
         {
-            GamePersistence gameStatePersistence = new()
-            {
-                level = 0,
-                player = new()
-                {
-                    currentPosition = new Vector2Int(1, 2),
-                }
-            };
+            ISerializer serializer = new NewtonsoftJSONSerializer();
+            serializer.Deserialize(Common.SAVE_PATH, typeof(GamePersistence), out var save);
+            GamePersistence gameStatePersistence = (GamePersistence)save;
             game.Load(gameStatePersistence);
         }
     }

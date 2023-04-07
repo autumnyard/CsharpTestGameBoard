@@ -11,6 +11,7 @@ namespace ConsoleApp1.Input
         {
             _inputMap = new Dictionary<ConsoleKey, eInputAction>()
             {
+                 { ConsoleKey.Spacebar, eInputAction.Save},
                  { ConsoleKey.Escape, eInputAction.Exit}
             };
 

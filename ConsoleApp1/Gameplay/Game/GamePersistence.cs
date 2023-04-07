@@ -3,10 +3,5 @@ using ConsoleApp1.Gameplay.Player;
 
 namespace ConsoleApp1.Gameplay.Game
 {
-    internal class GamePersistence
-    {
-        public MapState map;
-        public PlayerState player;
-        public int level;
-    }
+    internal record GamePersistence(int level, MapState map, PlayerState player);
 }
