@@ -1,5 +1,4 @@
-﻿using ConsoleApp1.Display;
-using ConsoleApp1.Input;
+﻿using ConsoleApp1.Input;
 
 namespace ConsoleApp1.Gameplay
 {
@@ -7,25 +6,11 @@ namespace ConsoleApp1.Gameplay
         IEquatable<Vector2Int>,
         IPersistable<PlayerPersistence>
     {
-        internal sealed class PlayerDisplay : IDisplayable
-        {
-            private readonly PlayerController _controller;
-
-            public PlayerDisplay(PlayerController controller)
-            {
-                _controller = controller;
-            }
-
-            public void Display() => PlayerDisplay.Display(_controller._currentPosition);
-
-            private static void Display(Vector2Int position)
-            {
-                Console.WriteLine($" Player position: {position}\n\n");
-            }
-        }
 
         private readonly MovementValidator _movementValidator;
         private Vector2Int _currentPosition;
+
+        public Vector2Int CurrentPosition => _currentPosition;
 
         public PlayerController(MovementValidator movementValidator)
         {
@@ -36,7 +21,7 @@ namespace ConsoleApp1.Gameplay
 
         public void NewGame(Vector2Int spawnPosition)
         {
-            _currentPosition = new Vector2Int( spawnPosition);
+            _currentPosition = new Vector2Int(spawnPosition);
         }
 
         public void Load(PlayerPersistence persistence)
@@ -63,19 +48,19 @@ namespace ConsoleApp1.Gameplay
             }
         }
 
-        
+
         private void MoveUp()
         {
             var requestedPosition = new Vector2Int(_currentPosition.X, _currentPosition.Y - 1);
             TryToMove(requestedPosition);
         }
-        
+
         private void MoveDown()
         {
             var requestedPosition = new Vector2Int(_currentPosition.X, _currentPosition.Y + 1);
             TryToMove(requestedPosition);
         }
-        
+
         private void MoveLeft()
         {
             var requestedPosition = new Vector2Int(_currentPosition.X - 1, _currentPosition.Y);
