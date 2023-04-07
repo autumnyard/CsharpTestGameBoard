@@ -3,16 +3,33 @@ using ConsoleApp1.Input;
 
 namespace ConsoleApp1.Gameplay
 {
-    internal sealed class PlayerController :
+    internal sealed class PlayerController : Controller<PlayerController>,
         IEquatable<Vector2Int>,
-        IPersistable<PlayerPersistence>,
-        IDisplayable
+        IPersistable<PlayerPersistence>
     {
+        internal sealed class PlayerDisplay : IDisplayable
+        {
+            private readonly PlayerController _controller;
+
+            public PlayerDisplay(PlayerController controller)
+            {
+                _controller = controller;
+            }
+
+            public void Display() => PlayerDisplay.Display(_controller._currentPosition);
+
+            private static void Display(Vector2Int position)
+            {
+                Console.WriteLine($" Player position: {position}\n\n");
+            }
+        }
+
         private readonly MovementValidator _movementValidator;
         private Vector2Int _currentPosition;
 
         public PlayerController(MovementValidator movementValidator)
         {
+            _display = new PlayerDisplay(this);
             _movementValidator = movementValidator;
             _currentPosition = default;
         }
@@ -77,14 +94,6 @@ namespace ConsoleApp1.Gameplay
             if (!isValid) return;
 
             _currentPosition = requestedNewPosition;
-        }
-
-
-        public void Display() => PlayerController.Display(_currentPosition);
-
-        private static void Display(Vector2Int position)
-        {
-            Console.WriteLine($" Player position: {position}\n\n");
         }
 
 
