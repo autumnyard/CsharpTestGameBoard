@@ -1,5 +1,5 @@
 ﻿using ConsoleApp1.Core;
-using ConsoleApp1.Gameplay;
+using ConsoleApp1.Gameplay.Game;
 
 namespace ConsoleApp1
 {
@@ -26,7 +26,7 @@ namespace ConsoleApp1
                     return 1;
             }
 
-            GameController game = new GameController();
+            Game game = new Game();
             game.Initialize();
 
             switch (startGameMode)
@@ -60,7 +60,7 @@ namespace ConsoleApp1
             Console.WriteLine(" Do you want to start a (N)ew game, or (L)oad a previous one?");
         }
 
-        public void StartNewGame(GameController game)
+        public void StartNewGame(Game game)
         {
             Console.WriteLine("\n");
             Console.WriteLine(" Now press the number of the level you want to play: ");
@@ -74,9 +74,9 @@ namespace ConsoleApp1
             game.NewGame(level);
         }
 
-        public void LoadGame(GameController game)
+        public void LoadGame(Game game)
         {
-            GameStatePersistence gameStatePersistence = new()
+            GamePersistence gameStatePersistence = new()
             {
                 level = 0,
                 player = new()

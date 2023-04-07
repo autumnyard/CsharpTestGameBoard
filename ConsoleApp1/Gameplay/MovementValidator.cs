@@ -1,4 +1,6 @@
 ﻿
+using ConsoleApp1.Gameplay.Map;
+
 namespace ConsoleApp1.Gameplay
 {
     internal class MovementValidator

@@ -1,5 +1,4 @@
-﻿
-namespace ConsoleApp1.Gameplay
+﻿namespace ConsoleApp1.Gameplay.Map
 {
     internal class MapData : IData
     {

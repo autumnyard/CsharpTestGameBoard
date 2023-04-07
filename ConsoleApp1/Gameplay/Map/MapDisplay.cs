@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace ConsoleApp1.Gameplay
+namespace ConsoleApp1.Gameplay.Map
 {
     internal sealed class MapDisplay : BaseDisplay<MapController>
     {

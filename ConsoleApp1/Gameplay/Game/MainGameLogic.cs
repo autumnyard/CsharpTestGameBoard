@@ -1,10 +1,11 @@
 ﻿using ConsoleApp1.Display;
+using ConsoleApp1.Gameplay.Map;
+using ConsoleApp1.Gameplay.Player;
 using ConsoleApp1.Input;
-using System.Reflection.Emit;
 
-namespace ConsoleApp1.Gameplay
+namespace ConsoleApp1.Gameplay.Game
 {
-    internal class GameStateController : IDisplayable, IPersistable<GameStatePersistence>
+    internal class MainGameLogic : IDisplayable, IPersistable<GamePersistence>
     {
         private MapController _map;
         private PlayerController _player;
@@ -18,13 +19,14 @@ namespace ConsoleApp1.Gameplay
         public void NewGame(int level)
         {
             Initialize(level);
+
             _map.Initialize();
             _player.Initialize();
 
             _isRunning = true;
         }
 
-        public void Load(GameStatePersistence persistence)
+        public void Load(GamePersistence persistence)
         {
             Initialize(persistence.level);
 
@@ -34,9 +36,9 @@ namespace ConsoleApp1.Gameplay
             _isRunning = true;
         }
 
-        public GameStatePersistence Save()
+        public GamePersistence Save()
         {
-            return new GameStatePersistence()
+            return new GamePersistence()
             {
                 level = _currentLevel,
                 map = _map.State.Save(),

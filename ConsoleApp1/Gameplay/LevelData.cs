@@ -1,4 +1,7 @@
 ﻿
+using ConsoleApp1.Gameplay.Map;
+using ConsoleApp1.Gameplay.Player;
+
 namespace ConsoleApp1.Gameplay
 {
     internal class LevelData : IData

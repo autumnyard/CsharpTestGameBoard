@@ -1,5 +1,4 @@
-﻿
-namespace ConsoleApp1.Gameplay
+﻿namespace ConsoleApp1.Gameplay.Player
 {
     internal class PlayerState : BaseState,
         IPersistable<PlayerState>
@@ -13,12 +12,12 @@ namespace ConsoleApp1.Gameplay
 
         public void StartClean(PlayerData data)
         {
-            this.SetPosition(data.playerSpawnPosition);
+            SetPosition(data.playerSpawnPosition);
         }
 
         public void Load(PlayerState persistence)
         {
-            this.SetPosition(persistence.currentPosition);
+            SetPosition(persistence.currentPosition);
         }
 
         public PlayerState Save()

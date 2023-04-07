@@ -1,11 +1,11 @@
 ﻿using ConsoleApp1.Display;
 using ConsoleApp1.Input;
 
-namespace ConsoleApp1.Gameplay
+namespace ConsoleApp1.Gameplay.Player
 {
-    internal sealed class PlayerController : 
+    internal sealed class PlayerController :
         BaseController<PlayerController, PlayerData, PlayerState, PlayerDisplay>,
-        IEquatable<Vector2Int>, 
+        IEquatable<Vector2Int>,
         IDisplayable
     {
         private readonly MovementValidator _movementValidator;
@@ -13,7 +13,7 @@ namespace ConsoleApp1.Gameplay
         public Vector2Int CurrentPosition => _state.currentPosition;
 
         public PlayerController(LevelData data, MovementValidator movementValidator)
-            : base(data.Player, new PlayerDisplay(), new PlayerState() )
+            : base(data.Player, new PlayerDisplay(), new PlayerState())
         {
             _movementValidator = movementValidator;
         }
@@ -23,7 +23,7 @@ namespace ConsoleApp1.Gameplay
             _state = new PlayerState();
             _state.StartClean(_data);
         }
-        
+
         public void Initialize(PlayerState persistence)
         {
             _state = new PlayerState();

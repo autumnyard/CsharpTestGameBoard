@@ -1,5 +1,4 @@
-﻿
-namespace ConsoleApp1.Gameplay
+﻿namespace ConsoleApp1.Gameplay.Map
 {
     internal class MapState : BaseState,
         IPersistable<MapState>

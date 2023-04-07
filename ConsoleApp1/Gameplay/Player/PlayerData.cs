@@ -1,5 +1,4 @@
-﻿
-namespace ConsoleApp1.Gameplay
+﻿namespace ConsoleApp1.Gameplay.Player
 {
     internal class PlayerData : IData
     {

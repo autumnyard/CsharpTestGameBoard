@@ -1,8 +1,8 @@
 ﻿using ConsoleApp1.Display;
 
-namespace ConsoleApp1.Gameplay
+namespace ConsoleApp1.Gameplay.Map
 {
-    internal class MapController : 
+    internal class MapController :
         BaseController<MapController, MapData, MapState, MapDisplay>,
         IDisplayable
     {
@@ -10,7 +10,7 @@ namespace ConsoleApp1.Gameplay
         public int[,] Map => _state.map;
 
         public MapController(LevelData data)
-            : base(data.Map, new MapDisplay(), new MapState() )
+            : base(data.Map, new MapDisplay(), new MapState())
         {
         }
 
@@ -19,7 +19,7 @@ namespace ConsoleApp1.Gameplay
             _state = new MapState();
             _state.StartClean(_data);
         }
-        
+
         public void Initialize(MapState persistence)
         {
             _state = new MapState();
