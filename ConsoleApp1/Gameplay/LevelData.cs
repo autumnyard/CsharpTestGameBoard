@@ -1,7 +1,7 @@
 ﻿
 namespace ConsoleApp1.Gameplay
 {
-    internal class LevelData
+    internal class LevelData : IData
     {
         private const int DEFAULT_MAP_SIZE = 4;
         private const int DEFAULT_PLAYER_SPAWN_POSITION = 1;

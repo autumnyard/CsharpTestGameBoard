@@ -1,20 +1,9 @@
-﻿using ConsoleApp1.Display;
-
+﻿
 namespace ConsoleApp1.Gameplay
 {
-    internal sealed class PlayerDisplay : IDisplayable
+    internal sealed class PlayerDisplay : BaseDisplay<PlayerController>
     {
-        private readonly PlayerController _controller;
-
-        public PlayerDisplay(PlayerController controller)
-        {
-            _controller = controller;
-        }
-
-        public void Display() => Display(_controller);
-
-
-        private static void Display(PlayerController controller)
+        public override void Display(PlayerController controller)
         {
             Display(controller.CurrentPosition);
         }

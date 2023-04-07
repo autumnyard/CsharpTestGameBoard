@@ -1,27 +1,33 @@
-﻿using ConsoleApp1.Input;
+﻿using ConsoleApp1.Display;
+using ConsoleApp1.Input;
 
 namespace ConsoleApp1.Gameplay
 {
     internal sealed class PlayerController : 
-        Controller<PlayerState, PlayerDisplay>,
-        IEquatable<Vector2Int>
+        BaseController<PlayerController, PlayerData, PlayerState, PlayerDisplay>,
+        IEquatable<Vector2Int>, 
+        IDisplayable
     {
         private readonly MovementValidator _movementValidator;
 
         public Vector2Int CurrentPosition => _state.currentPosition;
 
-        public PlayerController(MovementValidator movementValidator)
+        public PlayerController(LevelData data, MovementValidator movementValidator)
+            : base(data.Player, new PlayerDisplay(), new PlayerState() )
         {
-            _state = new PlayerState();
-            _display = new PlayerDisplay(this);
-
             _movementValidator = movementValidator;
         }
 
-        public void StartClean(LevelData data)
+        public void Initialize()
         {
             _state = new PlayerState();
-            _state.StartClean(data);
+            _state.StartClean(_data);
+        }
+        
+        public void Initialize(PlayerState persistence)
+        {
+            _state = new PlayerState();
+            _state.Load(persistence);
         }
 
 
@@ -69,9 +75,11 @@ namespace ConsoleApp1.Gameplay
             _state.SetPosition(requestedNewPosition);
         }
 
+        void IDisplayable.Display() => _display.Display(this);
 
         public override string ToString() => _state.currentPosition.ToString();
         public bool Equals(Vector2Int other) => _state.currentPosition.Equals(other);
+
         public static bool operator ==(PlayerController player, Vector2Int other) => player.Equals(other);
         public static bool operator !=(PlayerController player, Vector2Int other) => !player.Equals(other);
     }

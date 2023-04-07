@@ -1,7 +1,7 @@
 ﻿
 namespace ConsoleApp1.Gameplay
 {
-    internal class MapData
+    internal class MapData : IData
     {
         public Vector2Int size;
     }

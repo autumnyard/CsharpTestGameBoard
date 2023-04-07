@@ -1,21 +1,10 @@
-﻿using ConsoleApp1.Display;
-using System.Text;
+﻿using System.Text;
 
 namespace ConsoleApp1.Gameplay
 {
-    internal sealed class MapDisplay : IDisplayable
+    internal sealed class MapDisplay : BaseDisplay<MapController>
     {
-        private readonly MapController _controller;
-
-        public MapDisplay(MapController controller)
-        {
-            _controller = controller;
-        }
-
-        public void Display() => Display(_controller);
-
-
-        private static void Display(MapController controller)
+        public override void Display(MapController controller)
         {
             Display(controller.Map, controller.Size);
         }

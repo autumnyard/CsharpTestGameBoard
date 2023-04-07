@@ -1,7 +1,7 @@
 ﻿
 namespace ConsoleApp1.Gameplay
 {
-    internal class PlayerState : State,
+    internal class PlayerState : BaseState,
         IPersistable<PlayerState>
     {
         public Vector2Int currentPosition;
@@ -11,9 +11,9 @@ namespace ConsoleApp1.Gameplay
             currentPosition = position;
         }
 
-        public void StartClean(LevelData data)
+        public void StartClean(PlayerData data)
         {
-            this.SetPosition(data.Player.playerSpawnPosition);
+            this.SetPosition(data.playerSpawnPosition);
         }
 
         public void Load(PlayerState persistence)

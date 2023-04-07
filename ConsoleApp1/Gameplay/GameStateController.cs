@@ -1,5 +1,6 @@
 ﻿using ConsoleApp1.Display;
 using ConsoleApp1.Input;
+using System.Reflection.Emit;
 
 namespace ConsoleApp1.Gameplay
 {
@@ -16,36 +17,19 @@ namespace ConsoleApp1.Gameplay
 
         public void NewGame(int level)
         {
-            _levelDataProvider = new LevelDataProvider();
-            _map = new MapController();
-            _movementValidator = new MovementValidator(_map);
-            _player = new PlayerController(_movementValidator);
-
-            // Load from level data
-            _currentLevel = level;
-            _levelDataProvider.TryGet(level, out var data);
-            _map.StartClean(data);
-            _player.StartClean(data);
+            Initialize(level);
+            _map.Initialize();
+            _player.Initialize();
 
             _isRunning = true;
         }
 
         public void Load(GameStatePersistence persistence)
         {
-            _levelDataProvider = new LevelDataProvider();
-            _map = new MapController();
-            _movementValidator = new MovementValidator(_map);
-            _player = new PlayerController(_movementValidator);
+            Initialize(persistence.level);
 
-            // Load data from level data
-            _currentLevel = persistence.level;
-            _levelDataProvider.TryGet(_currentLevel, out var data);
-            _map.StartClean(data);
-            _player.StartClean(data);
-
-            // Load state from persistence
-            _map.State.Load(persistence.map);
-            _player.State.Load(persistence.player);
+            _map.Initialize(persistence.map);
+            _player.Initialize(persistence.player);
 
             _isRunning = true;
         }
@@ -58,6 +42,18 @@ namespace ConsoleApp1.Gameplay
                 map = _map.State.Save(),
                 player = _player.State.Save(),
             };
+        }
+
+        private void Initialize(int level)
+        {
+            // Load from level data
+            _currentLevel = level;
+            _levelDataProvider = new LevelDataProvider();
+            _levelDataProvider.TryGet(level, out var data);
+
+            _map = new MapController(data);
+            _movementValidator = new MovementValidator(_map);
+            _player = new PlayerController(data, _movementValidator);
         }
 
         private void Finish()
@@ -86,8 +82,8 @@ namespace ConsoleApp1.Gameplay
 
         public void Display()
         {
-            _map.Display.Display();
-            _player.Display.Display();
+            _map.Display.Display(_map);
+            _player.Display.Display(_player);
         }
     }
 }

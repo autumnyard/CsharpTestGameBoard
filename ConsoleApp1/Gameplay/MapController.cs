@@ -1,28 +1,32 @@
-﻿namespace ConsoleApp1.Gameplay
+﻿using ConsoleApp1.Display;
+
+namespace ConsoleApp1.Gameplay
 {
     internal class MapController : 
-        Controller<MapState, MapDisplay>
+        BaseController<MapController, MapData, MapState, MapDisplay>,
+        IDisplayable
     {
-        private MapData _data;
-
         public Vector2Int Size => _data.size;
         public int[,] Map => _state.map;
 
-        public MapController()
+        public MapController(LevelData data)
+            : base(data.Map, new MapDisplay(), new MapState() )
         {
-            _state = new MapState();
-            _display = new MapDisplay(this);
-
-            _data = new MapData();
         }
 
-        public void StartClean(LevelData data)
+        public void Initialize()
         {
-            _data = data.Map;
-
             _state = new MapState();
-            _state.StartClean(data);
+            _state.StartClean(_data);
+        }
+        
+        public void Initialize(MapState persistence)
+        {
+            _state = new MapState();
+            _state.Load(persistence);
         }
 
+
+        void IDisplayable.Display() => _display.Display(this);
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 namespace ConsoleApp1.Gameplay
 {
-    internal class MapState : State,
+    internal class MapState : BaseState,
         IPersistable<MapState>
     {
         public int[,] map;
@@ -17,9 +17,9 @@ namespace ConsoleApp1.Gameplay
             map = new int[size.X, size.Y];
         }
 
-        public void StartClean(LevelData data)
+        public void StartClean(MapData data)
         {
-            CreateNewMap(data.Map.size);
+            CreateNewMap(data.size);
         }
 
         public void Load(MapState persistence)
