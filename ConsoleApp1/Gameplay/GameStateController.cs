@@ -24,13 +24,13 @@ namespace ConsoleApp1.Gameplay
             // Load from level data
             _currentLevel = level;
             _levelDataProvider.TryGet(level, out var data);
-            _map.SetMap(data.MapSize);
-            _player.NewGame(data.PlayerSpawnPosition);
+            _map.StartClean(data);
+            _player.StartClean(data);
 
             _isRunning = true;
         }
 
-        public void Load(GameStatePersistence save)
+        public void Load(GameStatePersistence persistence)
         {
             _levelDataProvider = new LevelDataProvider();
             _map = new MapController();
@@ -38,12 +38,14 @@ namespace ConsoleApp1.Gameplay
             _player = new PlayerController(_movementValidator);
 
             // Load data from level data
-            _currentLevel = save.level;
+            _currentLevel = persistence.level;
             _levelDataProvider.TryGet(_currentLevel, out var data);
-            _map.SetMap(data.MapSize);
+            _map.StartClean(data);
+            _player.StartClean(data);
 
             // Load state from persistence
-            _player.Load(save.player);
+            _map.State.Load(persistence.map);
+            _player.State.Load(persistence.player);
 
             _isRunning = true;
         }
@@ -53,7 +55,8 @@ namespace ConsoleApp1.Gameplay
             return new GameStatePersistence()
             {
                 level = _currentLevel,
-                player = _player.Save()
+                map = _map.State.Save(),
+                player = _player.State.Save(),
             };
         }
 

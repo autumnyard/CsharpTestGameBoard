@@ -4,8 +4,7 @@ namespace ConsoleApp1.Gameplay
 {
     internal sealed class PlayerController : 
         Controller<PlayerState, PlayerDisplay>,
-        IEquatable<Vector2Int>,
-        IPersistable<PlayerState>
+        IEquatable<Vector2Int>
     {
         private readonly MovementValidator _movementValidator;
 
@@ -19,20 +18,12 @@ namespace ConsoleApp1.Gameplay
             _movementValidator = movementValidator;
         }
 
-        public void NewGame(Vector2Int spawnPosition)
+        public void StartClean(LevelData data)
         {
-            _state.Set(spawnPosition);
+            _state = new PlayerState();
+            _state.StartClean(data);
         }
 
-        public void Load(PlayerState persistence)
-        {
-            _state.Set(persistence.currentPosition);
-        }
-
-        public PlayerState Save()
-        {
-            return _state;
-        }
 
         internal void ApplyInput(eInputAction inputAction)
         {

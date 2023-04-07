@@ -15,7 +15,14 @@
             _display = new MapDisplay(this);
         }
 
-        public void SetMap(Vector2Int size)
+        public void StartClean(LevelData data)
+        {
+            SetMap(data.MapSize);
+            _state = new MapState();
+            _state.StartClean(data);
+        }
+
+        private void SetMap(Vector2Int size)
         {
             _size = new Vector2Int(size);
             _map = new int[_size.X, _size.Y];
