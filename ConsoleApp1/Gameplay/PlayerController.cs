@@ -2,39 +2,36 @@
 
 namespace ConsoleApp1.Gameplay
 {
-    internal sealed class PlayerController : Controller<PlayerController>,
+    internal sealed class PlayerController : Controller<PlayerState>,
         IEquatable<Vector2Int>,
-        IPersistable<PlayerPersistence>
+        IPersistable<PlayerState>
     {
-
         private readonly MovementValidator _movementValidator;
-        private Vector2Int _currentPosition;
 
-        public Vector2Int CurrentPosition => _currentPosition;
+        public Vector2Int CurrentPosition => _state.currentPosition;
 
         public PlayerController(MovementValidator movementValidator)
         {
+            _state = new PlayerState();
             _display = new PlayerDisplay(this);
+
             _movementValidator = movementValidator;
-            _currentPosition = default;
+
         }
 
         public void NewGame(Vector2Int spawnPosition)
         {
-            _currentPosition = new Vector2Int(spawnPosition);
+            _state.Set(spawnPosition);
         }
 
-        public void Load(PlayerPersistence persistence)
+        public void Load(PlayerState persistence)
         {
-            _currentPosition = persistence.currentPosition;
+            _state.Set(persistence.currentPosition);
         }
 
-        public PlayerPersistence Save()
+        public PlayerState Save()
         {
-            return new PlayerPersistence()
-            {
-                currentPosition = _currentPosition
-            };
+            return _state;
         }
 
         internal void ApplyInput(eInputAction inputAction)
@@ -51,39 +48,39 @@ namespace ConsoleApp1.Gameplay
 
         private void MoveUp()
         {
-            var requestedPosition = new Vector2Int(_currentPosition.X, _currentPosition.Y - 1);
+            var requestedPosition = new Vector2Int(_state.currentPosition.X, _state.currentPosition.Y - 1);
             TryToMove(requestedPosition);
         }
 
         private void MoveDown()
         {
-            var requestedPosition = new Vector2Int(_currentPosition.X, _currentPosition.Y + 1);
+            var requestedPosition = new Vector2Int(_state.currentPosition.X, _state.currentPosition.Y + 1);
             TryToMove(requestedPosition);
         }
 
         private void MoveLeft()
         {
-            var requestedPosition = new Vector2Int(_currentPosition.X - 1, _currentPosition.Y);
+            var requestedPosition = new Vector2Int(_state.currentPosition.X - 1, _state.currentPosition.Y);
             TryToMove(requestedPosition);
         }
 
         private void MoveRight()
         {
-            var requestPosition = new Vector2Int(_currentPosition.X + 1, _currentPosition.Y);
+            var requestPosition = new Vector2Int(_state.currentPosition.X + 1, _state.currentPosition.Y);
             TryToMove(requestPosition);
         }
 
         private void TryToMove(Vector2Int requestedNewPosition)
         {
-            bool isValid = _movementValidator.IsValidMovement(_currentPosition, requestedNewPosition);
+            bool isValid = _movementValidator.IsValidMovement(_state.currentPosition, requestedNewPosition);
             if (!isValid) return;
 
-            _currentPosition = requestedNewPosition;
+            _state.Set(requestedNewPosition);
         }
 
 
-        public override string ToString() => _currentPosition.ToString();
-        public bool Equals(Vector2Int other) => _currentPosition.Equals(other);
+        public override string ToString() => _state.currentPosition.ToString();
+        public bool Equals(Vector2Int other) => _state.currentPosition.Equals(other);
         public static bool operator ==(PlayerController player, Vector2Int other) => player.Equals(other);
         public static bool operator !=(PlayerController player, Vector2Int other) => !player.Equals(other);
     }

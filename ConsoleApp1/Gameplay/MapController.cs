@@ -1,6 +1,6 @@
 ﻿namespace ConsoleApp1.Gameplay
 {
-    internal class MapController : Controller<MapController>
+    internal class MapController : Controller<MapState>
     {
         private Vector2Int _size;
         private int[,] _map;
@@ -10,6 +10,7 @@
 
         public MapController()
         {
+            _state = new MapState();
             _display = new MapDisplay(this);
         }
 
