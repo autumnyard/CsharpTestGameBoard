@@ -83,8 +83,8 @@ namespace ConsoleApp1.Gameplay
 
         public void Display()
         {
-            _map.Display();
-            _player.Display();
+            _map.Display.Display();
+            _player.Display.Display();
         }
     }
 }

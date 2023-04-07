@@ -1,6 +1,7 @@
 ﻿namespace ConsoleApp1.Gameplay
 {
-    internal class MapController : Controller<MapState>
+    internal class MapController : 
+        Controller<MapState, MapDisplay>
     {
         private Vector2Int _size;
         private int[,] _map;
@@ -19,7 +20,5 @@
             _size = new Vector2Int(size);
             _map = new int[_size.X, _size.Y];
         }
-
-        public void Display() => _display.Display();
     }
 }

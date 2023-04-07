@@ -2,7 +2,8 @@
 
 namespace ConsoleApp1.Gameplay
 {
-    internal sealed class PlayerController : Controller<PlayerState>,
+    internal sealed class PlayerController : 
+        Controller<PlayerState, PlayerDisplay>,
         IEquatable<Vector2Int>,
         IPersistable<PlayerState>
     {
@@ -16,7 +17,6 @@ namespace ConsoleApp1.Gameplay
             _display = new PlayerDisplay(this);
 
             _movementValidator = movementValidator;
-
         }
 
         public void NewGame(Vector2Int spawnPosition)

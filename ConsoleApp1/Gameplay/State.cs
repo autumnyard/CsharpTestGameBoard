@@ -1,7 +1,11 @@
 ﻿
 namespace ConsoleApp1.Gameplay
 {
-    internal abstract class State
+    public interface IState
+    {
+
+    }
+    internal abstract class State : IState
     {
     }
 }

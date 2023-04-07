@@ -2,15 +2,14 @@
 
 namespace ConsoleApp1.Gameplay
 {
-    internal abstract class Controller<T> : IDisplayable
-        where T: State
+    internal abstract class Controller<TState, TDisplay>
+        where TState : IState
+        where TDisplay : IDisplayable
     {
-        protected T _state;
-        protected IDisplayable _display;
+        protected TState _state;
+        protected TDisplay _display;
 
-        public void Display()
-        {
-            _display.Display();
-        }
+        public TState State => _state;
+        public TDisplay Display => _display;
     }
 }
