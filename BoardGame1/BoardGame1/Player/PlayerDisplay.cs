@@ -1,5 +1,4 @@
-﻿using BoardGame1.Gameplay;
-using System;
+﻿using Kernel.Gameplay;
 
 namespace BoardGame1.Player
 {

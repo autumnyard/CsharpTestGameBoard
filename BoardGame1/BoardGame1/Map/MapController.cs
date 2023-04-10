@@ -1,5 +1,5 @@
-﻿using BoardGame1.Display;
-using BoardGame1.Gameplay;
+﻿using Kernel.Display;
+using Kernel.Gameplay;
 
 namespace BoardGame1.Map
 {

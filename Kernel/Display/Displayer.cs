@@ -1,9 +1,7 @@
 ﻿
-using System.Collections.Generic;
-
-namespace BoardGame1.Display
+namespace Kernel.Display
 {
-    internal class Displayer : IDisplayer
+    public class Displayer : IDisplayer
     {
         private List<IDisplayable> _displayables;
 

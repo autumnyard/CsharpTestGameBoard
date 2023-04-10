@@ -1,4 +1,4 @@
-﻿using BoardGame1.BoardGame1;
+﻿using BoardGame1.BoardGame1.Game;
 using BoardGame1.Core;
 using Kernel;
 

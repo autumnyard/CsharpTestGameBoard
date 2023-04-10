@@ -1,16 +1,16 @@
-﻿using BoardGame1.Display;
-using BoardGame1.BoardGame1.Game;
-using BoardGame1.Gameplay;
-using BoardGame1.Input;
-using Serialization;
+﻿using BoardGame1.BoardGame1.Input;
 using Kernel;
+using Kernel.Display;
+using Kernel.Gameplay;
+using Kernel.Input;
+using Serialization;
 
-namespace BoardGame1.BoardGame1
+namespace BoardGame1.BoardGame1.Game
 {
     public sealed class MainGame : IGame, IPersistable<GamePersistence>
     {
         private Displayer _displayer;
-        private IInputProvider _inputProvider;
+        private IInputProvider<eInputAction> _inputProvider;
         private MainGameLogic _mainGame;
 
         public bool IsRunning => _mainGame.IsRunning;
@@ -24,12 +24,12 @@ namespace BoardGame1.BoardGame1
             _displayer.AddDisplayable((IDisplayable)_inputProvider);
 
             _mainGame = new MainGameLogic();
-            _displayer.AddDisplayable((IDisplayable)_mainGame);
+            _displayer.AddDisplayable(_mainGame);
         }
 
         public void Finish()
         {
-            _displayer.RemoveDisplayable((IDisplayable)_mainGame);
+            _displayer.RemoveDisplayable(_mainGame);
             _displayer.RemoveDisplayable((IDisplayable)_inputProvider);
         }
 

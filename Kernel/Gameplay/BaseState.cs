@@ -1,5 +1,5 @@
 ﻿
-namespace BoardGame1.Gameplay
+namespace Kernel.Gameplay
 {
     public abstract class BaseState : IState
     {

@@ -1,7 +1,6 @@
-﻿
-namespace BoardGame1.Input
+﻿namespace BoardGame1.BoardGame1.Input
 {
-    enum eInputAction
+    public enum eInputAction
     {
         None = 0,
         MoveUp, MoveDown,

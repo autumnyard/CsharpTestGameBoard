@@ -1,6 +1,6 @@
 ﻿using BoardGame1.Map;
 using BoardGame1.Player;
-using BoardGame1.Gameplay;
+using Kernel.Gameplay;
 
 namespace BoardGame1
 {

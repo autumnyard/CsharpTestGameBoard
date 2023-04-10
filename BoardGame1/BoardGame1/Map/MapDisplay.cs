@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Kernel.Gameplay;
 using System.Text;
-using BoardGame1.Gameplay;
 
 namespace BoardGame1.Map
 {

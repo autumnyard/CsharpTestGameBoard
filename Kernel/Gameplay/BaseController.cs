@@ -1,8 +1,8 @@
-﻿using BoardGame1.Display;
+﻿using Kernel.Display;
 
-namespace BoardGame1.Gameplay
+namespace Kernel.Gameplay
 {
-    internal abstract class BaseController<TController, TData, TState, TDisplay>
+    public abstract class BaseController<TController, TData, TState, TDisplay>
         where TData : IData
         where TState : IState
         where TDisplay : IDisplay<TController>

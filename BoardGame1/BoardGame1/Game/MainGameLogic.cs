@@ -1,8 +1,8 @@
-﻿using BoardGame1.Map;
+﻿using BoardGame1.BoardGame1.Input;
+using BoardGame1.Map;
 using BoardGame1.Player;
-using BoardGame1.Display;
-using BoardGame1.Gameplay;
-using BoardGame1.Input;
+using Kernel.Display;
+using Kernel.Gameplay;
 
 namespace BoardGame1.BoardGame1.Game
 {

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Kernel.Display;
+using Kernel.Input;
 using System.Text;
-using BoardGame1.Display;
 
-namespace BoardGame1.Input
+namespace BoardGame1.BoardGame1.Input
 {
-    internal class InputProvider : IInputProvider, IDisplayable
+    internal class InputProvider : IInputProvider<eInputAction>, IDisplayable
     {
         private Dictionary<ConsoleKey, eInputAction> _inputMap;
 

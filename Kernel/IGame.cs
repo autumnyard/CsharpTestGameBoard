@@ -1,4 +1,5 @@
-﻿namespace Kernel
+﻿
+namespace Kernel
 {
     public interface IGame
     {

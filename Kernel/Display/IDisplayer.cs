@@ -1,7 +1,7 @@
 ﻿
-namespace BoardGame1.Display
+namespace Kernel.Display
 {
-    internal interface IDisplayer
+    public interface IDisplayer
     {
         void AddDisplayable(IDisplayable displayable);
         void RemoveDisplayable(IDisplayable displayable);

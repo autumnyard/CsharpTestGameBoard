@@ -1,4 +1,4 @@
-﻿using BoardGame1.Gameplay;
+﻿using Kernel.Gameplay;
 
 namespace BoardGame1.Map
 {
