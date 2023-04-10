@@ -1,4 +1,5 @@
-﻿namespace ConsoleApp1
+﻿
+namespace ConsoleApp
 {
     internal class Program
     {

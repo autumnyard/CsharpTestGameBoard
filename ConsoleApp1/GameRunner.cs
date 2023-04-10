@@ -1,8 +1,9 @@
-﻿using ConsoleApp1.Core;
-using ConsoleApp1.Gameplay.Game;
+﻿using BoardGame1.Core;
+using BoardGame1.Game;
+using BoardGame1.Core;
 using Serialization;
 
-namespace ConsoleApp1
+namespace ConsoleApp
 {
     internal class GameRunner
     {
@@ -77,10 +78,7 @@ namespace ConsoleApp1
 
         public void LoadGame(Game game)
         {
-            ISerializer serializer = new NewtonsoftJSONSerializer();
-            serializer.Deserialize(Common.SAVE_PATH, typeof(GamePersistence), out var save);
-            GamePersistence gameStatePersistence = (GamePersistence)save;
-            game.Load(gameStatePersistence);
+            game.LoadGame();
         }
     }
 }
