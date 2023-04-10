@@ -1,19 +1,20 @@
-﻿using BoardGame1.Game;
-using BoardGame1.Display;
+﻿using BoardGame1.Display;
+using BoardGame1.BoardGame1.Game;
 using BoardGame1.Gameplay;
 using BoardGame1.Input;
 using Serialization;
-using System;
+using Kernel;
 
-namespace BoardGame1.Core
+namespace BoardGame1.BoardGame1
 {
-    public class Game : IPersistable<GamePersistence>
+    public sealed class MainGame : IGame, IPersistable<GamePersistence>
     {
         private Displayer _displayer;
         private IInputProvider _inputProvider;
         private MainGameLogic _mainGame;
 
         public bool IsRunning => _mainGame.IsRunning;
+
 
         public void Initialize()
         {
@@ -25,6 +26,13 @@ namespace BoardGame1.Core
             _mainGame = new MainGameLogic();
             _displayer.AddDisplayable((IDisplayable)_mainGame);
         }
+
+        public void Finish()
+        {
+            _displayer.RemoveDisplayable((IDisplayable)_mainGame);
+            _displayer.RemoveDisplayable((IDisplayable)_inputProvider);
+        }
+
 
         public void NewGame(int level)
         {
@@ -39,16 +47,6 @@ namespace BoardGame1.Core
             Load(gameStatePersistence);
         }
 
-        public void Load(GamePersistence persistence)
-        {
-            _mainGame.Load(persistence);
-        }
-
-        public GamePersistence Save()
-        {
-            return _mainGame.Save();
-        }
-
         public void Tick()
         {
             Console.Clear();
@@ -60,7 +58,7 @@ namespace BoardGame1.Core
             _mainGame.ApplyInput(newInput);
         }
 
-        public void SaveGame(Game game)
+        private void SaveGame(IPersistable<GamePersistence> game)
         {
             Console.WriteLine($"Save game");
 
@@ -69,10 +67,20 @@ namespace BoardGame1.Core
             serializer.Serialize(Common.SAVE_PATH, save);
         }
 
-        public void Finish()
+
+        #region IPersistable
+
+        public void Load(GamePersistence persistence)
         {
-            _displayer.RemoveDisplayable((IDisplayable)_mainGame);
-            _displayer.RemoveDisplayable((IDisplayable)_inputProvider);
+            _mainGame.Load(persistence);
         }
+
+        public GamePersistence Save()
+        {
+            return _mainGame.Save();
+        }
+
+        #endregion // IPersistable
+
     }
 }

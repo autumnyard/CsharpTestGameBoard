@@ -1,7 +1,6 @@
-﻿using BoardGame1.Core;
-using BoardGame1.Game;
+﻿using BoardGame1.BoardGame1;
 using BoardGame1.Core;
-using Serialization;
+using Kernel;
 
 namespace ConsoleApp
 {
@@ -19,7 +18,6 @@ namespace ConsoleApp
                     startGameMode = eStartGameMode.NewGame;
                     break;
 
-
                 case ConsoleKey.L:
                     startGameMode = eStartGameMode.Load;
                     break;
@@ -28,7 +26,7 @@ namespace ConsoleApp
                     return 1;
             }
 
-            Game game = new Game();
+            IGame game = new MainGame();
             game.Initialize();
 
             switch (startGameMode)
@@ -62,7 +60,7 @@ namespace ConsoleApp
             Console.WriteLine(" Do you want to start a (N)ew game, or (L)oad a previous one?");
         }
 
-        public void StartNewGame(Game game)
+        public void StartNewGame(IGame game)
         {
             Console.WriteLine("\n");
             Console.WriteLine(" Now press the number of the level you want to play: ");
@@ -76,7 +74,7 @@ namespace ConsoleApp
             game.NewGame(level);
         }
 
-        public void LoadGame(Game game)
+        public void LoadGame(IGame game)
         {
             game.LoadGame();
         }

@@ -4,7 +4,7 @@ using BoardGame1.Display;
 using BoardGame1.Gameplay;
 using BoardGame1.Input;
 
-namespace BoardGame1.Game
+namespace BoardGame1.BoardGame1.Game
 {
     internal class MainGameLogic : IDisplayable, IPersistable<GamePersistence>
     {
@@ -27,6 +27,8 @@ namespace BoardGame1.Game
             _isRunning = true;
         }
 
+        #region IPersistable
+
         public void Load(GamePersistence persistence)
         {
             Initialize(persistence.level);
@@ -45,6 +47,8 @@ namespace BoardGame1.Game
                 _player.State.Save());
 
         }
+
+        #endregion // IPersistable
 
         private void Initialize(int level)
         {
@@ -82,10 +86,15 @@ namespace BoardGame1.Game
         }
 
 
+        #region IDisplayable
+
         public void Display()
         {
             _map.Display.Display(_map);
             _player.Display.Display(_player);
         }
+
+        #endregion // IDisplayable
+
     }
 }
