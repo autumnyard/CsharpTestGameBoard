@@ -7,13 +7,13 @@ using Serialization;
 
 namespace BoardGame1.BoardGame1.Game
 {
-    public sealed class MainGame : IGame, IPersistable<GamePersistence>
+    public sealed class MainGame : IGame
     {
         private Displayer _displayer;
         private IInputProvider<eInputAction> _inputProvider;
-        private MainGameLogic _mainGame;
+        private GameLogic _logic;
 
-        public bool IsRunning => _mainGame.IsRunning;
+        public bool IsRunning => _logic.IsRunning;
 
 
         public void Initialize()
@@ -23,20 +23,13 @@ namespace BoardGame1.BoardGame1.Game
             _inputProvider = new InputProvider();
             _displayer.AddDisplayable((IDisplayable)_inputProvider);
 
-            _mainGame = new MainGameLogic();
-            _displayer.AddDisplayable(_mainGame);
+            _logic = new GameLogic();
+            _displayer.AddDisplayable(_logic);
         }
-
-        public void Finish()
-        {
-            _displayer.RemoveDisplayable(_mainGame);
-            _displayer.RemoveDisplayable((IDisplayable)_inputProvider);
-        }
-
 
         public void NewGame(int level)
         {
-            _mainGame.NewGame(level);
+            _logic.NewGame(level);
         }
 
         public void LoadGame()
@@ -44,7 +37,7 @@ namespace BoardGame1.BoardGame1.Game
             ISerializer serializer = new NewtonsoftJSONSerializer();
             serializer.Deserialize(Common.SAVE_PATH, typeof(GamePersistence), out var save);
             GamePersistence gameStatePersistence = (GamePersistence)save;
-            Load(gameStatePersistence);
+            _logic. Load(gameStatePersistence);
         }
 
         public void Tick()
@@ -55,7 +48,7 @@ namespace BoardGame1.BoardGame1.Game
 
             if (newInput == eInputAction.Save) SaveGame(this);
 
-            _mainGame.ApplyInput(newInput);
+            _logic.ApplyInput(newInput);
         }
 
         private void SaveGame(IPersistable<GamePersistence> game)
@@ -63,24 +56,15 @@ namespace BoardGame1.BoardGame1.Game
             Console.WriteLine($"Save game");
 
             ISerializer serializer = new NewtonsoftJSONSerializer();
-            var save = game.Save();
+            var save = _logic.Save();
             serializer.Serialize(Common.SAVE_PATH, save);
         }
 
-
-        #region IPersistable
-
-        public void Load(GamePersistence persistence)
+        public void Finish()
         {
-            _mainGame.Load(persistence);
+            _displayer.RemoveDisplayable(_logic);
+            _displayer.RemoveDisplayable((IDisplayable)_inputProvider);
         }
-
-        public GamePersistence Save()
-        {
-            return _mainGame.Save();
-        }
-
-        #endregion // IPersistable
 
     }
 }

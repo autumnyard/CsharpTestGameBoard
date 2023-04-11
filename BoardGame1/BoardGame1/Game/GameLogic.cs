@@ -6,7 +6,7 @@ using Kernel.Gameplay;
 
 namespace BoardGame1.BoardGame1.Game
 {
-    internal class MainGameLogic : IDisplayable, IPersistable<GamePersistence>
+    internal class GameLogic : IDisplayable, IPersistable<GamePersistence>
     {
         private MapController _map;
         private PlayerController _player;
