@@ -4,11 +4,12 @@ using System.Text;
 
 namespace BoardGame1.BoardGame1.Input
 {
-    internal class InputProvider : IInputProvider<eInputAction>, IDisplayable
+    internal sealed class DictInputProcessor : IInputProcessor<ConsoleKey, eInputAction>,
+        IDisplayable
     {
         private Dictionary<ConsoleKey, eInputAction> _inputMap;
 
-        public InputProvider()
+        public DictInputProcessor()
         {
             _inputMap = new Dictionary<ConsoleKey, eInputAction>()
             {
@@ -29,25 +30,27 @@ namespace BoardGame1.BoardGame1.Input
             _inputMap.Add(ConsoleKey.D, eInputAction.MoveRight);
         }
 
-        public void GetInput(out eInputAction newInput)
+
+        public void Process(ConsoleKey input, out eInputAction output)
         {
-            var key = Console.ReadKey();
+            bool foundKeyInMap = _inputMap.TryGetValue(input, out output);
 
-            bool foundKeyInMap = _inputMap.TryGetValue(key.Key, out var input);
-
-            newInput = foundKeyInMap ? input : eInputAction.None;
+            output = foundKeyInMap ? output : eInputAction.None;
         }
 
-        public void Display()
+        public override string ToString()
         {
             StringBuilder sb = new StringBuilder("Input Map: \n");
             foreach (var input in _inputMap)
             {
                 sb.Append($"  [{input.Key} --> {input.Value}] \n");
             }
-            sb.Append('\n');
-            sb.Append('\n');
-            Console.WriteLine(sb.ToString());
+            return sb.ToString();
+        }
+
+        public void Display()
+        {
+            Console.WriteLine($"Input Map: {this}\n\n");
         }
     }
 }

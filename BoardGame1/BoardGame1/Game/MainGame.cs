@@ -10,7 +10,8 @@ namespace BoardGame1.BoardGame1.Game
     public sealed class MainGame : IGame
     {
         private Displayer _displayer;
-        private IInputProvider<eInputAction> _inputProvider;
+        private IInputProcessor<ConsoleKey, eInputAction> _inputProcessor;
+        private IInputProvider<ConsoleKey> _inputProvider;
         private GameLogic _logic;
 
         public bool IsRunning => _logic.IsRunning;
@@ -20,8 +21,10 @@ namespace BoardGame1.BoardGame1.Game
         {
             _displayer = new Displayer();
 
-            _inputProvider = new InputProvider();
-            _displayer.AddDisplayable((IDisplayable)_inputProvider);
+            _inputProcessor = new DictInputProcessor();
+            //_inputProvider = new SyncProcessedConsoleInputProvider();
+            _inputProvider = new SyncConsoleInputProvider();
+            _displayer.AddDisplayable((IDisplayable)_inputProcessor);
 
             _logic = new GameLogic();
             _displayer.AddDisplayable(_logic);
@@ -44,14 +47,16 @@ namespace BoardGame1.BoardGame1.Game
         {
             Console.Clear();
             _displayer.Display();
+
             _inputProvider.GetInput(out var newInput);
+            _inputProcessor.Process(newInput, out var output);
 
-            if (newInput == eInputAction.Save) SaveGame(this);
+            if (output == eInputAction.Save) SaveGame();
 
-            _logic.ApplyInput(newInput);
+            _logic.ApplyInput(output);
         }
 
-        private void SaveGame(IPersistable<GamePersistence> game)
+        private void SaveGame()
         {
             Console.WriteLine($"Save game");
 
@@ -63,7 +68,7 @@ namespace BoardGame1.BoardGame1.Game
         public void Finish()
         {
             _displayer.RemoveDisplayable(_logic);
-            _displayer.RemoveDisplayable((IDisplayable)_inputProvider);
+            _displayer.RemoveDisplayable((IDisplayable)_inputProcessor);
         }
 
     }
